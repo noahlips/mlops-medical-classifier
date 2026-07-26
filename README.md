@@ -1,6 +1,6 @@
 # MLOps Medical Classifier
 
-End-to-end MLOps project: a breast-cancer diagnosis model (scikit-learn) served through a production-grade stack — versioned training artifacts, FastAPI service, automated tests, Docker image, CI pipeline and data-drift monitoring.
+End-to-end MLOps project: a breast-cancer diagnosis model (scikit-learn) served through a production-grade stack, with versioned training artifacts, a FastAPI service, automated tests, a Docker image, a CI pipeline and data-drift monitoring.
 
 The model itself is deliberately simple (Gradient Boosting on the Wisconsin Diagnostic dataset): the point of this repo is everything **around** the model.
 
@@ -23,12 +23,12 @@ train.py ──> artifacts/ ──> FastAPI /predict ──> logs/predictions.js
 
 ## Features
 
-- **Reproducible training** — `python -m src.train` exports the fitted pipeline, metrics, feature names and a training reference sample, all versioned together
-- **Typed REST API** — FastAPI + Pydantic validation (`/predict`, `/health`, `/model/info`), every request logged as JSONL
-- **Drift monitoring** — `python -m src.drift` runs a per-feature two-sample Kolmogorov–Smirnov test between logged production inputs and the training distribution; non-zero exit code on drift makes it cron/CI-friendly
-- **Tests** — 10 pytest cases covering training quality gates, API contract, request logging and drift detection
-- **CI (GitHub Actions)** — lint (ruff), tests, Docker build and a container smoke test on every push
-- **Docker** — the model is trained *at build time*, so each image ships a reproducible, self-contained model version
+- **Reproducible training**: `python -m src.train` exports the fitted pipeline, metrics, feature names and a training reference sample, all versioned together
+- **Typed REST API**: FastAPI + Pydantic validation (`/predict`, `/health`, `/model/info`), every request logged as JSONL
+- **Drift monitoring**: `python -m src.drift` runs a per-feature two-sample Kolmogorov–Smirnov test between logged production inputs and the training distribution; non-zero exit code on drift makes it cron/CI-friendly
+- **Tests**: 10 pytest cases covering training quality gates, API contract, request logging and drift detection
+- **CI (GitHub Actions)**: lint (ruff), tests, Docker build and a container smoke test on every push
+- **Docker**: the model is trained *at build time*, so each image ships a reproducible, self-contained model version
 
 ## Quickstart
 
@@ -56,4 +56,4 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" \
 
 ## Disclaimer
 
-Educational project. Not a medical device — never use for actual diagnosis.
+Educational project. Not a medical device. Never use for actual diagnosis.
