@@ -75,8 +75,8 @@ def train(artifacts_dir: Path = ARTIFACTS_DIR) -> dict:
         },
         "metadata": {
             "trained_at": datetime.now(timezone.utc).isoformat(),
-            "n_train_samples": int(len(X_train)),
-            "n_test_samples": int(len(X_test)),
+            "n_train_samples": len(X_train),
+            "n_test_samples": len(X_test),
             "n_features": int(X.shape[1]),
             "sklearn_version": sklearn.__version__,
             "python_version": platform.python_version(),
