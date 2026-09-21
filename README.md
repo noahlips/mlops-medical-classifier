@@ -62,10 +62,24 @@ docker build -t medical-classifier .
 docker run -p 8000:8000 medical-classifier
 ```
 
-CI runs ruff, the 10 pytest cases, a Docker build, and a container smoke test on every push.
+CI runs ruff, the 11 pytest cases, a Docker build, and a container smoke test on every push.
+
+## Experiment tracking
+
+Every `python -m src.train` is recorded as a run in MLflow: the hyperparameters, the hold-out and cross-validation metrics, the library versions, and the fitted model itself. Before this, retraining with different settings overwrote `artifacts/` and the previous numbers were gone.
+
+Runs go to a local SQLite file, `mlflow.db`, which is gitignored. To compare them:
+
+```bash
+mlflow ui --backend-store-uri sqlite:///mlflow.db
+```
+
+then open http://localhost:5000.
+
+The unit tests call `train(tracking_uri=None)` when they only care about the artifacts, and one dedicated test points MLflow at a temporary database and checks that the logged metrics match what `train` returns. That way the test suite never writes into your real tracking history.
 
 ## Known gaps
 
-The dataset is small, clean and nearly balanced, so it is nothing like real clinical data. There is no authentication on the API. There is no experiment tracking yet. And there is no monitoring of actual performance in production, because that would need real diagnoses coming back after the fact, which no public dataset gives you.
+The dataset is small, clean and nearly balanced, so it is nothing like real clinical data. There is no authentication on the API. Tracking is local only, with no shared server or model registry. And there is no monitoring of actual performance in production, because that would need real diagnoses coming back after the fact, which no public dataset gives you.
 
 Educational project. Obviously not a medical device.

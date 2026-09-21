@@ -8,3 +8,5 @@ logs/
 .ruff_cache/
 .idea/
 .vscode/
+mlflow.db
+mlruns/
